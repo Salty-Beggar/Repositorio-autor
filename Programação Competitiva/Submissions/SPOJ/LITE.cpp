@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+#define MAX_INPUT 100000
+#define MAX_NLOGN 1700000
+
+long int n, m;
+long int lightsSegmentTree[MAX_NLOGN];
+bool lightsSegmentTreeLz[MAX_NLOGN];
+
+void unlazy(long int nodeIndex, long int sIndex, long int eIndex) {
+    if (!lightsSegmentTreeLz[nodeIndex]) return;
+    lightsSegmentTree[nodeIndex] = eIndex-sIndex+1 - lightsSegmentTree[nodeIndex];
+    if (sIndex != eIndex) {
+        lightsSegmentTreeLz[nodeIndex*2+1] = !lightsSegmentTreeLz[nodeIndex*2+1];
+        lightsSegmentTreeLz[nodeIndex*2+2] = !lightsSegmentTreeLz[nodeIndex*2+2];
+    }
+    lightsSegmentTreeLz[nodeIndex] = false;
+}
+
+void _updateRange(long int nodeIndex, long int nodeSI, long int nodeEI, long int uSI, long int uEI) {
+    unlazy(nodeIndex, nodeSI, nodeEI);
+    if (uEI < nodeSI || uSI > nodeEI) return;
+    
+    if (nodeSI >= uSI && nodeEI <= uEI) { // Current node completely in range.
+        lightsSegmentTreeLz[nodeIndex] = true;
+        unlazy(nodeIndex, nodeSI, nodeEI);
+        return;
+    }
+    
+    long int middle = nodeSI+(nodeEI-nodeSI)/2;
+    _updateRange(nodeIndex*2+1, nodeSI, middle, uSI, uEI);
+    _updateRange(nodeIndex*2+2, middle+1, nodeEI, uSI, uEI);
+    lightsSegmentTree[nodeIndex] = lightsSegmentTree[nodeIndex*2+1] + lightsSegmentTree[nodeIndex*2+2];
+}
+
+void updateRange(long int uSI, long int uEI) {
+    _updateRange(0, 0, n-1, uSI, uEI);
+}
+
+long int _queryRange(long int nodeIndex, long int nodeSI, long int nodeEI, long int uSI, long int uEI) {
+    unlazy(nodeIndex, nodeSI, nodeEI);
+    if (uEI < nodeSI || uSI > nodeEI) return 0;
+    
+    if (nodeSI >= uSI && nodeEI <= uEI) { // Current node completely in range.
+        return lightsSegmentTree[nodeIndex];
+    }
+    
+    long int middle = nodeSI+(nodeEI-nodeSI)/2;
+    return _queryRange(nodeIndex*2+1, nodeSI, middle, uSI, uEI)+_queryRange(nodeIndex*2+2, middle+1, nodeEI, uSI, uEI);
+}
+
+long int queryRange(long int uSI, long int uEI) {
+    return _queryRange(0, 0, n-1, uSI, uEI);
+}
+
+int main() {
+    cin >> n >> m;
+    for (long int i = 0; i < m; i++) {
+        int operation;
+        long int sIndex, eIndex;
+        cin >> operation >> sIndex >> eIndex;
+        sIndex--;
+        eIndex--;
+        if (operation == 0) updateRange(sIndex, eIndex); // Update range
+        else cout << queryRange(sIndex, eIndex) << "\n"; // Query range
+    }
+    return 0;
+}

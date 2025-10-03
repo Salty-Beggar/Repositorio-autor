@@ -1,0 +1,178 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+#include <string>
+using namespace std;
+
+// Constants
+#define MAX_N 200000
+#define MAX_M 200000
+#define MAX_LOGN 17
+
+// Main paramethers
+long long int n, m, q;
+vector<vector<long long int>> connections;
+
+// Variables for other stuff
+
+    // MST
+    long long int depth[MAX_N];
+    long long int convergedMST[MAX_N][2]; // The nodes converge to the root for binary leap purposes. It's also weighted.
+    vector<vector<long long int>> divergedMST; // Not weighted. parent to child one.
+    
+    // disjoint Set
+    long long int disjointSet[MAX_N], dsWeight[MAX_N];
+    
+    // Binary Leap
+    long long int binaryLeap[MAX_N][MAX_LOGN][2];
+
+// disjoint set
+void initializedisjointSet() { // n must already have been defined.
+    for (long long int i = 0; i < n; i++) {
+        disjointSet[i] = i;
+        dsWeight[i] = 0;
+    }
+}
+long long int find(long long int u) {
+    if (disjointSet[u] == u) return u;
+    
+    long long int monarch = find(disjointSet[u]);
+    disjointSet[u] = monarch;
+    return monarch;
+}
+bool isJoined(long long int u, long long int v) {
+    return find(u) == find(v);
+}
+void join(long long int u, long long int v) {
+    u = find(u);
+    v = find(v);
+    if (u == v) return;
+    
+    if (dsWeight[u] > dsWeight[v]) {
+        long long int backup = u;
+        u = v;
+        v = backup;
+    }
+    
+    disjointSet[u] = v;
+    if (dsWeight[u] == dsWeight[v]) {
+        dsWeight[v]++;
+    }
+}
+
+// Lowest Common Ancestor & Binary leap
+void generateBinaryLeap() { // Pre-condition: n has already been defined and MST has already been generated.
+    binaryLeap[0][0][0] = -1;
+    binaryLeap[0][0][1] = -1;
+    for (long long int i = 1; i < n; i++) {
+        binaryLeap[i][0][0] = convergedMST[i][0];
+        binaryLeap[i][0][1] = convergedMST[i][1];
+    }
+    for (long long int j = 1; j < MAX_LOGN; j++) {
+        for (long long int i = 0; i < n; i++) {
+            long long int prevLeap = binaryLeap[i][j-1][0];
+            binaryLeap[i][j][0] = (prevLeap != -1) ? binaryLeap[prevLeap][j-1][0] : -1;
+            binaryLeap[i][j][1] = (prevLeap != -1)
+                ? max(binaryLeap[i][j-1][1], binaryLeap[prevLeap][j-1][1])
+                : binaryLeap[i][j-1][1];
+        }
+    }
+}
+long long int findHeaviestConnection(long long int u, long long int v) {
+    if (depth[u] < depth[v]) {
+        long long int backup = u;
+        u = v;
+        v = backup;
+    }
+    long long int maxWeight = 0;
+    long long int depthDiff = depth[u] - depth[v];
+    for (long long int j = 0; j < MAX_LOGN; j++) {
+        long long int curBit = 1<<j;
+        if ((curBit & depthDiff) == curBit) {
+            maxWeight = max(maxWeight, binaryLeap[u][j][1]);
+            u = binaryLeap[u][j][0];
+        }
+    }
+    if (u != v) {
+        for (long long int j = 0; j < MAX_LOGN; j++) {
+            if (binaryLeap[u][j][0] != binaryLeap[v][j][0]) {
+                maxWeight = max(max(maxWeight, binaryLeap[v][j][1]), binaryLeap[u][j][1]);
+                u = binaryLeap[u][j][0];
+                v = binaryLeap[v][j][0];
+            }
+        }
+        maxWeight = max(max(maxWeight, binaryLeap[v][0][1]), binaryLeap[u][0][1]);
+    }
+    return maxWeight;
+}
+
+// Min ST
+bool comp(vector<long long int> a, vector<long long int> b) {
+    return a[2] < b[2];
+}
+void generateMST() { // Pre-condition: n and m must already have been defined, and disjoint set must already have been generated.
+
+    // MST generation
+    for (long long int i = 0; i < n; i++) divergedMST.push_back({});
+    convergedMST[0][0] = -1;
+    convergedMST[0][1] = -1;
+    sort(connections.begin(), connections.end(), comp);
+    for (long long int i = 0; i < m; i++) {
+        long long int curConnection[3] = {connections[i][0], connections[i][1], connections[i][2]};
+        if (!isJoined(curConnection[0], curConnection[1])) {
+            join(curConnection[0], curConnection[1]);
+            long long int u = curConnection[0];
+            long long int v = curConnection[1];
+            if (u > v) {
+                long long int backup = u;
+                v = backup;
+                u = v;
+            }
+            long long int w = curConnection[2];
+            convergedMST[v][0] = u;
+            convergedMST[v][1] = w;
+            divergedMST[u].push_back(v);
+        }
+    }
+    
+    // Depth definition
+    queue<long long int> bfs;
+    bfs.push(0);
+    long long int curDepth = 0;
+    while (!bfs.empty()) {
+        long long int curSize = bfs.size();
+        for (long long int i = 0; i < curSize; i++) {
+            long long int curNode = bfs.front();
+            bfs.pop();
+            for (unsigned long int j = 0; j < divergedMST[curNode].size(); j++)
+                bfs.push(divergedMST[curNode][j]);
+            depth[curNode] = curDepth;
+        }
+        curDepth++;
+    }
+}
+
+bool solve(long long int u, long long int v, long long int w) {
+    return findHeaviestConnection(u, v) > w;
+}
+
+int main() {
+    cin >> n >> m >> q;
+    initializedisjointSet();
+    for (long long int i = 0; i < m; i++) {
+        long long int u, v, w;
+        cin >> u >> v >> w;
+        connections.push_back({u-1, v-1, w});
+    }
+    generateMST();
+    generateBinaryLeap();
+    
+    for (long long int i = 0; i < q; i++) {
+        long long int u, v, w;
+        cin >> u >> v >> w;
+        cout << ((solve(u-1, v-1, w)) ? "Yes" : "No") << "\n";
+    }
+    
+    return 0;
+}

@@ -1,0 +1,55 @@
+import java.io.*;
+
+class PlanetQueries {
+    public static void main(String[] args) throws IOException {
+        BufferedReader b = new BufferedReader(new InputStreamReader(System.in));
+        
+        String[] curLine = b.readLine().split(" ");
+        int n = Integer.parseInt(curLine[0]);
+        int q = Integer.parseInt(curLine[1]);
+        
+        int[] nexts = new int[n];
+        curLine = b.readLine().split(" ");
+        for (int i = 0; i < n; i++) {
+            nexts[i] = Integer.parseInt(curLine[i])-1;
+        }
+        
+        int[][] queries = new int[q][2];
+        for (int i = 0; i < q; i++) {
+            curLine = b.readLine().split(" ");
+            queries[i] = new int[]{
+                Integer.parseInt(curLine[0])-1,
+                Integer.parseInt(curLine[1])
+            };
+        }
+        
+        planetQueries(n, nexts, q, queries);
+    }
+    
+    public static void planetQueries(int n, int[] nexts, int q, int[][] queries) {
+        int maxHeapAmnt = 31;
+        int[][] binaryHeap = new int[n][maxHeapAmnt];
+        for (int i = 0; i < n; i++) {
+            binaryHeap[i][0] = nexts[i];
+        }
+        for (int j = 1; j < maxHeapAmnt; j++) {
+            for (int i = 0; i < n; i++) {
+                binaryHeap[i][j] = binaryHeap[binaryHeap[i][j-1]][j-1];
+            }
+        }
+        for (int i = 0; i < q; i++) {
+            int[] curQuery = queries[i];
+            int curQueryNext = curQuery[0];
+            //if (curQueryNext == 7) System.out.println(String.format("Bla %d %d ", binaryHeap[7][1], curQuery[1]));
+            for (int j = 0; j < maxHeapAmnt; j++) {
+                int curBit = 1<<j;
+                if ((curQuery[1] & curBit) == curBit) {
+                    //if (curQuery[0] == 7) System.out.println(String.format("ZAMN %d %d ", j, curQuery[1]));
+                    curQueryNext = binaryHeap[curQueryNext][j];
+                }
+            }
+            System.out.println(curQueryNext+1);
+        }
+        //return 2;
+    }
+}
