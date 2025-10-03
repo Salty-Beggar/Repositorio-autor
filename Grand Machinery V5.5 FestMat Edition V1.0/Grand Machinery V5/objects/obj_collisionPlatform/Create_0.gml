@@ -1,0 +1,9 @@
+/// @description Insert description here
+// You can write your code in this editor
+if (global.doesStageBuilderFromRoomExist && StageBuilderFromRoom.isBuilding)
+	return;
+// Inherit the parent event
+event_inherited();
+
+collisionType = collisionType_onewayUp;
+activate();

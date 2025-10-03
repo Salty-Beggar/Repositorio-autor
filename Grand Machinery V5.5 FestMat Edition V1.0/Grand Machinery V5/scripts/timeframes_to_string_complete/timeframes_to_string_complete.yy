@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"timeframes_to_string_complete",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"timeframes_to_string_complete",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_blink",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":3.47425,
+  "name":"snd_blink",
+  "parent":{
+    "name":"blink",
+    "path":"folders/Sounds/Prototype/blink.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_blink.mp3",
+  "type":0,
+  "volume":0.57,
+}

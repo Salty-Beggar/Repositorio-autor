@@ -1,0 +1,10 @@
+You should now see if you are able to create a fifth room without adding any new mechanics.
+After that, create the boss and polish a few aspects of your game to get it into a finished demo for the
+less gamer of the friends (Luigi will test before).
+
+You might want to improvise checkpoints somehow because of parts in which you'll supposed
+to die/get stuck at least once.
+
+-- NEW --
+You should continue doing the platform type of stuff.
+You should now make platforms be able to be put into stages.

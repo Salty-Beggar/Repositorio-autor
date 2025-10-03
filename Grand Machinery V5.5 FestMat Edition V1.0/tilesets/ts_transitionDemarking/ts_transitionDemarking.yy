@@ -1,0 +1,41 @@
+{
+  "$GMTileSet":"v1",
+  "%Name":"ts_transitionDemarking",
+  "autoTileSets":[],
+  "macroPageTiles":{
+    "SerialiseHeight":13,
+    "SerialiseWidth":11,
+    "TileCompressedData":[
+      -82,0,1,5,-4,4,1,1,-6,0,4,5,4,4,1,-29,0,4,2,4,4,6,-6,0,1,2,-4,4,1,6,
+    ],
+    "TileDataFormat":1,
+  },
+  "name":"ts_transitionDemarking",
+  "out_columns":3,
+  "out_tilehborder":2,
+  "out_tilevborder":2,
+  "parent":{
+    "name":"Tile Sets",
+    "path":"folders/Sprites/Tile Sets.yy",
+  },
+  "resourceType":"GMTileSet",
+  "resourceVersion":"2.0",
+  "spriteId":{
+    "name":"spr_transitionDemarkingTileset",
+    "path":"sprites/spr_transitionDemarkingTileset/spr_transitionDemarkingTileset.yy",
+  },
+  "spriteNoExport":false,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
+  "tileAnimationFrames":[],
+  "tileAnimationSpeed":15.0,
+  "tileHeight":16,
+  "tilehsep":0,
+  "tilevsep":0,
+  "tileWidth":16,
+  "tilexoff":0,
+  "tileyoff":0,
+  "tile_count":8,
+}

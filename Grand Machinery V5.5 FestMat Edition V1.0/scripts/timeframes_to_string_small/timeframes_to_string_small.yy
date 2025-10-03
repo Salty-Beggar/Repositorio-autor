@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"timeframes_to_string_small",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"timeframes_to_string_small",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

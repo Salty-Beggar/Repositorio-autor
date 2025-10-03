@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_weakShot",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":1.750167,
+  "name":"snd_weakShot",
+  "parent":{
+    "name":"Prototype",
+    "path":"folders/Sounds/Prototype.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_weakShot.mp3",
+  "type":0,
+  "volume":0.63,
+}
