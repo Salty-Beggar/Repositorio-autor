@@ -7,3 +7,4 @@ Há pastas principais cada uma contendo um projeto/projetos de minha autoria os 
 - Heartlinked: Um outro projeto de jogo desenvolvido no Gamemaker Studio 2.
 - Programação Competitiva: Compilado de estudos próprios para programação competitiva, mais especificamente para competir na Olimpíada Brasileira de Informática.
 - Desenvolvimento de Sistemas Web: Compilado de projetos próprios envolvendo HTML5, JavaScript, CSS e SQL. Todos foram realizados na escola onde estudo, o IFRS campus Bento Gonçalves no curso Informática para Internet.
+Mais detalhes a respeito de cada projeto podem ser encontrados em meu LinkedIn.
