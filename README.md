@@ -1,4 +1,4 @@
-Bem-vindo ao respositório do Ivoli Junior Rodrigues Guedes! Segue o link para o meu LinkedIn: https://www.linkedin.com/in/ivoli-junior-rodrigues-guedes-b6363a388
+Bem-vindo ao repositório do Ivoli Junior Rodrigues Guedes! Segue o link para o meu LinkedIn: https://www.linkedin.com/in/ivoli-junior-rodrigues-guedes-b6363a388
 
 Nele, ponho os projetos de programação os quais julgo os mais relevantes para mostrar a indivíduos ou grupos de indivíduos de interesse.
 
